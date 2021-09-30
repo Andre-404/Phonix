@@ -1,6 +1,7 @@
 {
   "resources": [
     {"id":{"name":"SoundEngine","path":"scripts/SoundEngine/SoundEngine.yy",},"order":0,},
+    {"id":{"name":"Test","path":"scripts/Test/Test.yy",},"order":1,},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},"order":0,},
   ],
   "Options": [
