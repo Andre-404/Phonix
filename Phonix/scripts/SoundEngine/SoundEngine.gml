@@ -1,10 +1,10 @@
-enum BeatTimeType{
+enum PhonixTimeType{
 	frames,
 	seconds,
 	miliseconds
 }
 #macro BEAT_DEFAULT_LISTENER_ORIENTATION [0, 0, 1000, 0, -1, 0]
-
+#macro PHONIX_DEFAULT_TIME_TYPE PhonixTimeType.miliseconds
 
 function BeatMaster(gain) constructor{
 	groups = {};
@@ -250,7 +250,7 @@ function __create3DBeatStruct(_soundStruct, _soundMaster, _is3D) constructor{
 	}
 	
 	Stop = function(){
-		if(!IsFading() && !stopping && !finished){
+		if(!IsStopping() && !IsFinished()){
 			stopping = true;
 			__SetFadeOut();
 		}

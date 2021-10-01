@@ -10,8 +10,8 @@
     "name": "audiogroup_default",
     "path": "audiogroups/audiogroup_default",
   },
-  "soundFile": "sfx3",
-  "duration": 0.0,
+  "soundFile": "sfx3.wav",
+  "duration": 4.041,
   "parent": {
     "name": "Sounds",
     "path": "folders/Sounds.yy",

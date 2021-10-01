@@ -1,12 +1,19 @@
 {
   "resources": [
+    {"id":{"name":"PhonixPublicFunctions","path":"scripts/PhonixPublicFunctions/PhonixPublicFunctions.yy",},"order":2,},
+    {"id":{"name":"Phonix","path":"scripts/Phonix/Phonix.yy",},"order":3,},
     {"id":{"name":"sfx2","path":"sounds/sfx2/sfx2.yy",},"order":4,},
+    {"id":{"name":"otest","path":"objects/otest/otest.yy",},"order":1,},
+    {"id":{"name":"oPhonixDemo","path":"objects/oPhonixDemo/oPhonixDemo.yy",},"order":0,},
     {"id":{"name":"sfx3","path":"sounds/sfx3/sfx3.yy",},"order":5,},
+    {"id":{"name":"PhonixSetup","path":"scripts/PhonixSetup/PhonixSetup.yy",},"order":4,},
     {"id":{"name":"sfx1","path":"sounds/sfx1/sfx1.yy",},"order":3,},
     {"id":{"name":"musicTrack2","path":"sounds/musicTrack2/musicTrack2.yy",},"order":1,},
     {"id":{"name":"musicTrack1","path":"sounds/musicTrack1/musicTrack1.yy",},"order":0,},
     {"id":{"name":"SoundEngine","path":"scripts/SoundEngine/SoundEngine.yy",},"order":0,},
     {"id":{"name":"musicTrack3","path":"sounds/musicTrack3/musicTrack3.yy",},"order":2,},
+    {"id":{"name":"PhonixBasic","path":"scripts/PhonixBasic/PhonixBasic.yy",},"order":5,},
+    {"id":{"name":"PhonixQueue","path":"scripts/PhonixQueue/PhonixQueue.yy",},"order":6,},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},"order":0,},
   ],
   "Options": [
