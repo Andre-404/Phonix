@@ -1,10 +1,4 @@
-enum PhonixTimeType{
-	frames,
-	seconds,
-	miliseconds
-}
-#macro BEAT_DEFAULT_LISTENER_ORIENTATION [0, 0, 1000, 0, -1, 0]
-#macro PHONIX_DEFAULT_TIME_TYPE PhonixTimeType.miliseconds
+
 
 function BeatMaster(gain) constructor{
 	groups = {};

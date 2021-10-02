@@ -4,6 +4,7 @@
     {"id":{"name":"Phonix","path":"scripts/Phonix/Phonix.yy",},"order":3,},
     {"id":{"name":"sfx2","path":"sounds/sfx2/sfx2.yy",},"order":4,},
     {"id":{"name":"otest","path":"objects/otest/otest.yy",},"order":1,},
+    {"id":{"name":"PhonixRandom","path":"scripts/PhonixRandom/PhonixRandom.yy",},"order":7,},
     {"id":{"name":"oPhonixDemo","path":"objects/oPhonixDemo/oPhonixDemo.yy",},"order":0,},
     {"id":{"name":"sfx3","path":"sounds/sfx3/sfx3.yy",},"order":5,},
     {"id":{"name":"PhonixSetup","path":"scripts/PhonixSetup/PhonixSetup.yy",},"order":4,},
