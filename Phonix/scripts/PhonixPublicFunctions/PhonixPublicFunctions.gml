@@ -1,47 +1,54 @@
 //These function are for handling sounds
-function PhonixPlay(pattern, priority, _x = 0, _y = 0, _z = 0, fo_ref = 50, fo_max = 100, fo_factor = 1){
+function PhonixPlay(pattern, priority, _x = 0, _y = 0, _z = 0, fo_ref = PHONIX_DEFAULT_FALLOFF_REFERENCE, fo_max = PHONIX_DEFAULT_FALLOFF_MAX, fo_factor = PHONIX_DEFAULT_FALLOFF_FACTOR){
 	var _id = pattern.play(priority, _x, _y, _z, fo_ref, fo_max, fo_factor);
 	
 	return _id;
 }
 
 function PhonixStop(index){
+	//if the value is a string then find a group of that name and execute the desired function
 	if(is_string(index)){
-		var g = global.phonixHandler.groups[$ index];
-		g.groupStop(false);
+		var g = global.__phonixHandler.groups[$ index];
+		if(g != undefined) g.groupStop(false);
 	}else{
-		index.Stop(false);
+		if(PhonixValueIsValid(index)) index.Stop(false);
 	}
 }
 
 function PhonixStopNow(index){
+	//if the value is a string then find a group of that name and execute the desired function
 	if(is_string(index)){
-		var g = global.phonixHandler.groups[$ index];
-		g.groupStop(true);
+		var g = global.__phonixHandler.groups[$ index];
+		if(g != undefined) g.groupStop(true);
 	}else{
-		index.Stop(true);
+		if(PhonixValueIsValid(index)) index.Stop(true);
 	}
 }
 
 function PhonixPause(index){
+	//if the value is a string then find a group of that name and execute the given function
 	if(is_string(index)){
-		var g = global.phonixHandler.groups[$ index];
-		g.groupPause();
+		var g = global.__phonixHandler.groups[$ index];
+		if(g != undefined) g.groupPause();
 	}else{
-		index.Pause();
+		if(PhonixValueIsValid(index)) index.Pause();
 	}
 }
 
 function PhonixUnpause(index){
+	//if the value is a string then find a group of that name and execute the given function
 	if(is_string(index)){
-		var g = global.phonixHandler.groups[$ index];
-		g.groupUnpause();
+		var g = global.__phonixHandler.groups[$ index];
+		if(g != undefined) g.groupUnpause();
 	}else{
-		index.Unpause();
+		if(PhonixValueIsValid(index)) index.Unpause();
 	}
 }
 	
-function PhonixTransition(soundID, nextSoundPattern, priority, _x = 0, _y = 0, _z = 0, fo_ref = 50, fo_max = 100, fo_factor = 1){
+function PhonixTransition(soundID, nextSoundPattern, priority, _x = 0, _y = 0, _z = 0, fo_ref = PHONIX_DEFAULT_FALLOFF_REFERENCE, fo_max = PHONIX_DEFAULT_FALLOFF_MAX, fo_factor = PHONIX_DEFAULT_FALLOFF_FACTOR){
+	if(!PhonixValueIsValid(soundID)) exit;
+	//if the soundID is a valid id, then we stop it and play the desired pattern
+	//NOTE: the sound of the next pattern will only start playing after the soundID is marked as finished, meaning not immidiately
 	var sFrom = soundID;
 	var sNext = nextSoundPattern.play(priority, _x, _y, _z, fo_ref, fo_max, fo_factor);
 	sFrom.hasTransition = true;
@@ -54,34 +61,52 @@ function PhonixTransition(soundID, nextSoundPattern, priority, _x = 0, _y = 0, _
 
 //These functions are for creating patterns and general audio managment
 function PhonixTick(){
-	global.phonixHandler.__update();
+	global.__phonixHandler.__update();
 }
 
 function PhonixCreateGroup(groupName, groupGain){
-	global.phonixHandler.__CreateGroup(groupName, groupGain);
+	global.__phonixHandler.__CreateGroup(groupName, groupGain);
 }
 
 function PhonixSetMasterGain(gain){
-	global.phonixHandler.__SetMasterGain(gain);
+	global.__phonixHandler.__SetMasterGain(gain);
+}
+	
+function PhonixGetMasterGain(){
+	return global.__phonixHandler.__GetMasterGain();
 }
 
 function PhonixSetGroupGain(groupName, gain){
-	global.phonixHandler.__SetGroupGain(groupName, gain);
+	global.__phonixHandler.__SetGroupGain(groupName, gain);
+}
+	
+function PhonixGetGroupGain(groupName){
+	return global.__phonixHandler.__GetGroupGain(groupName);
 }
 
 function PhonixCreateListener(_x, _y){
-	global.phonixHandler.__CreateListener(_x, _y);
+	return global.__phonixHandler.__CreateListener(_x, _y);
 }
 
-function PhonixCreateSingle(_asset, _gain, _loop, _fadeIn = 0, _fadeOut = 0, _group = "master"){
-	return global.phonixHandler.__CreateSinglePattern(_asset, _gain, _loop, _fadeIn, _fadeOut, _group);
+function PhonixCreateSingle(assetIndex, gain, loop, fadeIn = 0, fadeOut = 0, group = "master"){
+	return global.__phonixHandler.__CreateSinglePattern(assetIndex, gain, loop, fadeIn, fadeOut, group);
 }
 
-function PhonixCreateQueue(_assetArr, _gain, _loop, _fadeIn = 0, _fadeOut = 0, _group = "master"){
-	return global.phonixHandler.__CreateQueuePattern(_assetArr, _gain, _loop, _fadeIn, _fadeOut, _group)
+function PhonixCreateQueue(assetIndexArr, gain, loop, fadeIn = 0, fadeOut = 0, group = "master"){
+	return global.__phonixHandler.__CreateQueuePattern(assetIndexArr, gain, loop, fadeIn, fadeOut, group)
 }
 
-function PhonixCreateRandom(_assetArr, _gain, _fadeIn = 0, _fadeOut = 0, _group = "master"){
-	return global.phonixHandler.__CreateRandomPattern(_assetArr, _gain, _fadeIn, _fadeOut, _group);
+function PhonixCreateRandom(assetIndexArr, gain, fadeIn = 0, fadeOut = 0, group = "master"){
+	return global.__phonixHandler.__CreateRandomPattern(assetIndexArr, gain, fadeIn, fadeOut, group);
 }
 
+function PhonixSetFade(pattern, fadeInTime, fadeOutTime){
+	pattern.fadeInTimer = fadeInTime;
+	pattern.fadeOutTimer = fadeOutTime;
+}
+	
+function PhonixValueIsValid(value){
+	if(is_struct(value) && (instanceof(value) == "__createSinglePatternStruct"
+	|| instanceof(value) == "__createQueuePatternStruct")) return true;
+	else return false;
+}

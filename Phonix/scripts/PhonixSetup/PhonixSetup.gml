@@ -15,6 +15,7 @@ function __phonixCommonVars(coordsArr, foArr){
 	gainTarget = 1;
 	gainRate = 0.1;
 	finalGain = 1;
+	applyGroupGain = true;
 	
 	//3D stuff
 	emitter = -1;
@@ -22,6 +23,7 @@ function __phonixCommonVars(coordsArr, foArr){
 	y = coordsArr[1];
 	z = coordsArr[2];
 	if(x != 0 || y != 0 || z != 0) is3D = true;
+	else is3D = false;
 	falloffArr = foArr;
 	//for when we use the PhonixTransition()
 	hasTransition = false;
@@ -42,25 +44,45 @@ function __phonixCommonVars(coordsArr, foArr){
 		//audio_sound_gain(sID, _gain, fadeInTimer);
 	}
 		
+	Pause = function(){
+		if(stopping) exit;
+		pausing = true;
+		__SetFadeOut();
+	}
+		
+	Unpause = function(){
+		if(stopping) exit;
+		if(!pausing && paused){
+			audio_resume_sound(sID);
+			paused = false;
+			__SetFadeIn();
+			audio_sound_set_track_position(sID, trackPausedTime);
+		}
+	}
+		
 	//handle gain
 	gainTick = function(){
 		var multiGain = 1;
-		if(group.name != "master"){
-			multiGain *= group.groupGain*global.phonixHandler.groups[$ "master"].groupGain;
+		//If this sound is part of a group that isn't "master" then take both the group and the master gain into account
+		if(group.name != "master" && applyGroupGain){
+			multiGain *= group.groupGain*global.__phonixHandler.groups[$ "master"].groupGain;
 		}else{
 			multiGain *= group.groupGain;
 		}
 		
 		if(fading == 1){
+			//startTime is the time at which we started fading in/out and == current_time at that moment
 			if(fadeInTimer > 0){
 				var p = (current_time-startTime)/fadeInTimer;
 				multiGain *= clamp(p, 0, 1);
 				if(p >= 1) fading = 0;
-			}
+			}else fading = 0;
+			
 		}else if(fading == -1){
 			if(fadeOutTimer > 0){
 				var p = (current_time-startTime)/fadeInTimer;
 				multiGain *= clamp(1-p, 0, 1);
+				//bit of a hack to check if were done fading
 				if(p >= 1) {
 					fading = 0;
 					if(stopping) {
@@ -76,6 +98,7 @@ function __phonixCommonVars(coordsArr, foArr){
 					}
 				}
 			}else{
+				//this is for when we don't have a fade out setup
 				if(stopping) {
 					//if were stopping then mark the sound as finished
 					finished = true;
@@ -90,6 +113,7 @@ function __phonixCommonVars(coordsArr, foArr){
 			}
 		}
 		
+		//gain target and rate can be modified by the SetGain() method
 		baseGain += clamp(gainTarget - baseGain, -gainRate, gainRate);
 		
 		finalGain = baseGain*multiGain;
@@ -151,12 +175,20 @@ function __phonixCommonVars(coordsArr, foArr){
 		falloffArr = [falloff_ref, falloff_max, falloff_factor];
 		audio_emitter_falloff(emitter, falloffArr[0], falloffArr[1], falloffArr[2]);
 	}
+	
+	GetFalloff = function(){
+		//Only set the falloff if the sound isn't finished and if this is a 3D sound
+		if(finished) exit;
+		if(!is3D) PhonixTrace("Trying to set a position for a sound that isn't 3D");
+		return falloffArr;
+	}
 		
-	SetGain = function(gain, rate, applyGroupGain = true){
+	SetGain = function(gain, rate, _applyGroupGain = true){
 		if(finished) exit;
 		//rate should be between 0 and 1
 		gainTarget = gain;
 		gainRate = rate;
+		applyGroupGain = _applyGroupGain;
 		
 	}
 		
@@ -181,15 +213,7 @@ function __phonixCommonVars(coordsArr, foArr){
 	
 }
 
-function __phonixConvertTime(time, timeType){
-	switch(timeType){
-		case PhonixTimeType.frames: m = 1/60*1000; break;
-		case PhonixTimeType.miliseconds: m = 1; break;
-		case PhonixTimeType.seconds: m = 1000; break;
-	}
-	return time*m;
-}
-
 function PhonixTrace(s){
 	show_error(s, false);
 }
+

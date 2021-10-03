@@ -1,4 +1,4 @@
-if(keyboard_check_pressed(vk_enter)){
+/*if(keyboard_check_pressed(vk_enter)){
 	testID = PhonixTransition(testID, test2, 0);
 }
 
