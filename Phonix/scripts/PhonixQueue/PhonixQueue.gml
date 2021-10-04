@@ -1,10 +1,9 @@
 //Plays every sound in the assetArr in order that they are in the array,
 //has optional fade in/out that applies to every sound in the queue
 
-function __phonixQueuePattern(assetArr, _gain, _loop, _fadeIn, _fadeOut, _group) constructor{
+function __phonixQueuePattern(assetArr, _loop, _fadeIn, _fadeOut, _group) constructor{
 	soundIDs = [];
 	array_copy(soundIDs, 0, assetArr, 0, array_length(assetArr));
-	gain = _gain;
 	fadeInTimer = _fadeIn;
 	fadeOutTimer = _fadeOut;
 	group = _group;
@@ -12,19 +11,18 @@ function __phonixQueuePattern(assetArr, _gain, _loop, _fadeIn, _fadeOut, _group)
 	loop = _loop;
 	
 	play = function(priority, _x, _y, _z, fo_ref, fo_max, fo_factor){
-		var s = new __createQueuePatternStruct(soundIDs, gain, group, loop, fadeInTimer, fadeOutTimer, priority, [_x, _y, _z], [fo_ref, fo_max, fo_factor]);
+		var s = new __createQueuePatternStruct(soundIDs, group, loop, fadeInTimer, fadeOutTimer, priority, [_x, _y, _z], [fo_ref, fo_max, fo_factor]);
 		array_push(group.childInstances, s);
 		return s;
 		
 	}
 }
 
-function __createQueuePatternStruct(soundArr, _gain, _group, _loop, _fadeIn, _fadeOut, _priority, coordArr, foArr) constructor{
+function __createQueuePatternStruct(soundArr, _group, _loop, _fadeIn, _fadeOut, _priority, coordArr, foArr) constructor{
 	soundIDs = soundArr;
 	sID = -1;
 	curIndex = 0;
 	sInd = soundIDs[curIndex];
-	gain = _gain;
 	loop = _loop;
 	fadeInTimer = _fadeIn;
 	fadeOutTimer = _fadeOut;

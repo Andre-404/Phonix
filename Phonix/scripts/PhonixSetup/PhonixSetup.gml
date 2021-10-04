@@ -158,10 +158,10 @@ function __phonixCommonVars(coordsArr, foArr){
 		audio_sound_set_track_position(sID, time);
 	}
 	
-	SetPosition = function(_x, _y, _z){
+	SetPosition = function(_x, _y, _z = 0){
 		//Only set the position if the sound isn't finished and if this is a 3D sound
 		if(finished) exit;
-		if(!is3D) PhonixTrace("Trying to set a position for a sound that isn't 3D");
+		if(!is3D) __phonixTrace("Trying to set a position for a sound that isn't 3D");
 		x = _x;
 		y = _y;
 		z = _z;
@@ -171,7 +171,7 @@ function __phonixCommonVars(coordsArr, foArr){
 	SetFalloff = function(falloff_ref, falloff_max, falloff_factor){
 		//Only set the falloff if the sound isn't finished and if this is a 3D sound
 		if(finished) exit;
-		if(!is3D) PhonixTrace("Trying to set a position for a sound that isn't 3D");
+		if(!is3D) __phonixTrace("Trying to set a position for a sound that isn't 3D");
 		falloffArr = [falloff_ref, falloff_max, falloff_factor];
 		audio_emitter_falloff(emitter, falloffArr[0], falloffArr[1], falloffArr[2]);
 	}
@@ -179,7 +179,7 @@ function __phonixCommonVars(coordsArr, foArr){
 	GetFalloff = function(){
 		//Only set the falloff if the sound isn't finished and if this is a 3D sound
 		if(finished) exit;
-		if(!is3D) PhonixTrace("Trying to set a position for a sound that isn't 3D");
+		if(!is3D) __phonixTrace("Trying to set a position for a sound that isn't 3D");
 		return falloffArr;
 	}
 		
@@ -213,7 +213,7 @@ function __phonixCommonVars(coordsArr, foArr){
 	
 }
 
-function PhonixTrace(s){
+function __phonixTrace(s){
 	show_error(s, false);
 }
 

@@ -33,18 +33,18 @@ function PhonixMaster(gain) constructor{
 		return new __phonixCreateListener(_x, _y);
 	}
 		
-	__CreateSinglePattern = function(_asset, _gain, _loop, _fadeIn, _fadeOut, _group){
-		var s = new __phonixSinglePattern(_asset, _gain, _loop, _fadeIn, _fadeOut, groups[$ _group]);
+	__CreateSinglePattern = function(_asset, _loop, _fadeIn, _fadeOut, _group){
+		var s = new __phonixSinglePattern(_asset, _loop, _fadeIn, _fadeOut, groups[$ _group]);
 		return s;
 	}
 	
-	__CreateQueuePattern = function(_assetArr, _gain, _loop, _fadeIn, _fadeOut, _group){
-		var s = new __phonixQueuePattern(_assetArr, _gain, _loop, _fadeIn, _fadeOut, groups[$ _group]);
+	__CreateQueuePattern = function(_assetArr, _loop, _fadeIn, _fadeOut, _group){
+		var s = new __phonixQueuePattern(_assetArr, _loop, _fadeIn, _fadeOut, groups[$ _group]);
 		return s;
 	}
 		
-	__CreateRandomPattern = function(_assetArr, _gain, _fadeIn, _fadeOut, _group){
-		var s = new __phonixRandomPattern(_assetArr, _gain, _fadeIn, _fadeOut, groups[$ _group]);
+	__CreateRandomPattern = function(_assetArr,  _fadeIn, _fadeOut, _group){
+		var s = new __phonixRandomPattern(_assetArr, _fadeIn, _fadeOut, groups[$ _group]);
 		return s;
 	}
 }
@@ -125,7 +125,7 @@ function __phonixCreateListener(_x, _y) constructor{
 	x = _x;
 	y = _y;
 	z = 0;
-	var arr = BEAT_DEFAULT_LISTENER_ORIENTATION;//can be edited in config file
+	var arr = PHONIX_DEFAULT_LISTENER_ORIENTATION;//can be edited in config file
 	audio_listener_orientation(arr[0], arr[1], arr[2], arr[3], arr[4], arr[5]);
 	audio_listener_position(x, y, z);
 		

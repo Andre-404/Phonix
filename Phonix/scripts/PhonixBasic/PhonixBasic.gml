@@ -1,7 +1,6 @@
 //Plays a single sound with a optional fade in/out
 
-function __phonixSinglePattern(_asset, _gain, _loop, _fadeIn, _fadeOut, _group) constructor{
-	gain = _gain;
+function __phonixSinglePattern(_asset, _loop, _fadeIn, _fadeOut, _group) constructor{
 	soundIndex = _asset;
 	group = _group;
 	fadeInTimer = _fadeIn;
@@ -10,13 +9,13 @@ function __phonixSinglePattern(_asset, _gain, _loop, _fadeIn, _fadeOut, _group) 
 	
 	
 	play = function(priority, _x, _y, _z, fo_ref, fo_max, fo_factor){
-		var s = new __createSinglePatternStruct(gain, group, loop, soundIndex, fadeInTimer, fadeOutTimer, priority, [_x, _y, _z], [fo_ref, fo_max, fo_factor]);
+		var s = new __createSinglePatternStruct(group, loop, soundIndex, fadeInTimer, fadeOutTimer, priority, [_x, _y, _z], [fo_ref, fo_max, fo_factor]);
 		array_push(group.childInstances, s);
 		return s;
 	}
 }
 
-function __createSinglePatternStruct(gain, _group, _loop, _sIndex, _fadeIn, _fadeOut, _priority, coordArr, foArr) constructor{
+function __createSinglePatternStruct(_group, _loop, _sIndex, _fadeIn, _fadeOut, _priority, coordArr, foArr) constructor{
 	sID = -1;
 	sInd = _sIndex;
 	fadeInTimer = _fadeIn;

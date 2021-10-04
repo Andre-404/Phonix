@@ -88,16 +88,16 @@ function PhonixCreateListener(_x, _y){
 	return global.__phonixHandler.__CreateListener(_x, _y);
 }
 
-function PhonixCreateSingle(assetIndex, gain, loop, fadeIn = 0, fadeOut = 0, group = "master"){
-	return global.__phonixHandler.__CreateSinglePattern(assetIndex, gain, loop, fadeIn, fadeOut, group);
+function PhonixCreateSingle(assetIndex, loop, fadeIn = 0, fadeOut = 0, group = "master"){
+	return global.__phonixHandler.__CreateSinglePattern(assetIndex, loop, fadeIn, fadeOut, group);
 }
 
-function PhonixCreateQueue(assetIndexArr, gain, loop, fadeIn = 0, fadeOut = 0, group = "master"){
-	return global.__phonixHandler.__CreateQueuePattern(assetIndexArr, gain, loop, fadeIn, fadeOut, group)
+function PhonixCreateQueue(assetIndexArr, loop, fadeIn = 0, fadeOut = 0, group = "master"){
+	return global.__phonixHandler.__CreateQueuePattern(assetIndexArr, loop, fadeIn, fadeOut, group)
 }
 
-function PhonixCreateRandom(assetIndexArr, gain, fadeIn = 0, fadeOut = 0, group = "master"){
-	return global.__phonixHandler.__CreateRandomPattern(assetIndexArr, gain, fadeIn, fadeOut, group);
+function PhonixCreateRandom(assetIndexArr, fadeIn = 0, fadeOut = 0, group = "master"){
+	return global.__phonixHandler.__CreateRandomPattern(assetIndexArr, fadeIn, fadeOut, group);
 }
 
 function PhonixSetFade(pattern, fadeInTime, fadeOutTime){
