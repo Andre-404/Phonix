@@ -50,7 +50,7 @@ function __phonixCommonVars(coordsArr, foArr){
 		__SetFadeOut();
 	}
 		
-	Unpause = function(){
+	Resume = function(){
 		if(stopping) exit;
 		if(!pausing && paused){
 			audio_resume_sound(sID);

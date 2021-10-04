@@ -21,7 +21,7 @@ draw_text(20, 140, "Press Q to play a queue pattern");
 draw_text(20, 160, "Press R to play a random pattern");
 draw_text(20, 180, "Press SPACE to stop all sound");
 draw_text(20, 200, "Press P to pause all sounds");
-draw_text(20, 220, "Press U to unpause all sounds");
+draw_text(20, 220, "Press U to resume all sounds");
 
 
 //the below code is just for showcase and shouldn't really be used in practice

@@ -35,13 +35,13 @@ function PhonixPause(index){
 	}
 }
 
-function PhonixUnpause(index){
+function PhonixResume(index){
 	//if the value is a string then find a group of that name and execute the given function
 	if(is_string(index)){
 		var g = global.__phonixHandler.groups[$ index];
-		if(g != undefined) g.groupUnpause();
+		if(g != undefined) g.groupResume();
 	}else{
-		if(PhonixValueIsValid(index)) index.Unpause();
+		if(PhonixValueIsValid(index)) index.Resume();
 	}
 }
 	

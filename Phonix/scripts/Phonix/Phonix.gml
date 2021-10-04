@@ -106,15 +106,15 @@ function __phonixCreateGroup(groupName, gain) constructor{
 		}
 	}
 	
-	groupUnpause = function(){
-		//Unpauses every sound in the group, and if there are subgroups, unpauses their sounds too
+	groupResume = function(){
+		//Resumes every sound in the group, and if there are subgroups, resumess their sounds too
 		var l = array_length(childInstances);
 		for(var i = 0; i < l; i++){
 			var inst = childInstances[i];
 			if(inst.type == "group"){
-				inst.groupUnpause();
+				inst.groupResume();
 			}else if(inst.type == "sound"){
-				inst.Unpause();
+				inst.Resume();
 			}
 		}
 	}

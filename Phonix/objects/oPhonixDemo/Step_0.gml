@@ -19,7 +19,7 @@ if(keyboard_check_released(ord("P"))){
 }
 
 if(keyboard_check_released(ord("U"))){
-	PhonixUnpause("master");
+	PhonixResume("master");
 }
 
 if(keyboard_check_released(ord("T"))){
