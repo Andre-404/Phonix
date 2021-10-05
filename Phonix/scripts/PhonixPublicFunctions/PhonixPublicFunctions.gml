@@ -1,7 +1,11 @@
 //These function are for handling sounds
 function PhonixPlay(pattern, priority, _x = 0, _y = 0, _z = 0, fo_ref = PHONIX_DEFAULT_FALLOFF_REFERENCE, fo_max = PHONIX_DEFAULT_FALLOFF_MAX, fo_factor = PHONIX_DEFAULT_FALLOFF_FACTOR){
-	var _id = pattern.play(priority, _x, _y, _z, fo_ref, fo_max, fo_factor);
-	
+	if(is_struct(pattern)){
+		var _id = pattern.play(priority, _x, _y, _z, fo_ref, fo_max, fo_factor);
+	}else if(is_numeric(pattern)){
+		var p = PhonixCreateSingle(pattern, false);
+		var _id = p.play(priority, _x, _y, _z, fo_ref, fo_max, fo_factor);
+	}
 	return _id;
 }
 

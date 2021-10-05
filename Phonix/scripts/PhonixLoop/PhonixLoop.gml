@@ -8,14 +8,16 @@ function __phonixLoopPattern(_intro, _loop, _outro, _fadeIn, _fadeOut, _group) c
 	fadeInTimer = _fadeIn;
 	fadeOutTimer = _fadeOut;
 	
+	waitToPlayOutro = true;
+	
 	play = function(priority, _x, _y, _z, fo_ref, fo_max, fo_factor){
-		var s =  new _phonixLoopPatternStruct([intro, loop, outro], priority, fadeInTimer, fadeOutTimer, group, [_x, _y, _z], [fo_ref, fo_max, fo_factor])
+		var s =  new _phonixLoopPatternStruct([intro, loop, outro], priority, fadeInTimer, fadeOutTimer, group, [_x, _y, _z], [fo_ref, fo_max, fo_factor], waitToPlayOutro);
 		array_push(group.childInstances, s);
 		return s;
 	}
 }
 
-function _phonixLoopPatternStruct(soundsArr, _priority, fadeIn, fadeOut, _group, coordArr, falloffArr) constructor{
+function _phonixLoopPatternStruct(soundsArr, _priority, fadeIn, fadeOut, _group, coordArr, falloffArr, _wait) constructor{
 	//here we store the gms2 audio asset indexes
 	soundIndexes = soundsArr;
 	intro = soundsArr[0];
@@ -36,7 +38,7 @@ function _phonixLoopPatternStruct(soundsArr, _priority, fadeIn, fadeOut, _group,
 	__phonixCommonVars(coordArr, falloffArr);
 	
 	//Whether to wait until the intro/main loop track position reaches the end to play the outro
-	waitToPlayOutro = true;
+	waitToPlayOutro = _wait;
 	
 	
 	update = function(){
