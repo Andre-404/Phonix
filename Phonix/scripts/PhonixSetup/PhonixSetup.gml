@@ -128,6 +128,8 @@ function __phonixCommonVars(coordsArr, foArr){
 		audio_sound_pitch(sID, pitch);
 	}
 	
+	//getters
+	
 	IsFinished = function(){
 		return finished;
 	}
@@ -158,7 +160,38 @@ function __phonixCommonVars(coordsArr, foArr){
 		if(finished) exit;
 		return [x, y, z];
 	}
+		
+	GetFalloff = function(){
+		//Only set the falloff if the sound isn't finished and if this is a 3D sound
+		if(finished) exit;
+		if(!is3D) __phonixTrace("Trying to set a position for a sound that isn't 3D");
+		return falloffArr;
+	}
+		
+	GetGain = function(){
+		if(finished) exit;
+		return baseGain;
+	}
+		
+	GetOutputGain = function(){
+		if(finished) exit;
+		return finalGain;
+	}
 	
+	GetSoundIndex = function(){
+		if(sID == -1) return -1;
+		return sID;
+	}
+	
+	GetAssetIndex = function(){
+		return sInd;
+	}
+	
+	GetPitch = function(){
+		return pitch;
+	}
+		
+	//Setters
 	SetTrackPosition = function(time){
 		if(finished) exit;
 		//time has to be in seconds
@@ -183,46 +216,27 @@ function __phonixCommonVars(coordsArr, foArr){
 		audio_emitter_falloff(emitter, falloffArr[0], falloffArr[1], falloffArr[2]);
 	}
 	
-	GetFalloff = function(){
-		//Only set the falloff if the sound isn't finished and if this is a 3D sound
-		if(finished) exit;
-		if(!is3D) __phonixTrace("Trying to set a position for a sound that isn't 3D");
-		return falloffArr;
-	}
-		
-	SetGain = function(gain, rate, _applyGroupGain = true){
+	SetGainTarget = function(_gainTarget, rate, _applyGroupGain = true){
 		if(finished) exit;
 		//rate should be between 0 and 1
-		gainTarget = gain;
+		gainTarget = _gainTarget;
 		gainRate = rate;
 		applyGroupGain = _applyGroupGain;
 		
 	}
 		
-	GetGain = function(){
-		if(finished) exit;
-		return baseGain;
-	}
-	
-	GetOutputGain = function(){
-		if(finished) exit;
-		return finalGain;
-	}
-	
-	GetSoundIndex = function(){
-		if(sID == -1) return -1;
-		return sID;
-	}
-	
-	GetAssetIndex = function(){
-		return sInd;
+	SetGain = function(_gain){
+		baseGain = _gain;
 	}
 		
-	SetPitch = function(_pitch, rate){
+	SetPitchTarget = function(_pitch, rate){
 		pitchTarget = _pitch;
 		pitchRate = rate;
 	}
-	
+		
+	SetPitch = function(_pitch){
+		pitch = _pitch;
+	}
 }
 
 function __phonixTrace(s){
