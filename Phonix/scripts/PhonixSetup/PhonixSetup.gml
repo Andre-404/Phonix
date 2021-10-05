@@ -64,13 +64,7 @@ function __phonixCommonVars(coordsArr, foArr){
 		
 	//handle gain
 	gainTick = function(){
-		var multiGain = 1;
-		//If this sound is part of a group that isn't "master" then take both the group and the master gain into account
-		if(group.name != "master" && applyGroupGain){
-			multiGain *= group.groupGain*global.__phonixHandler.groups[$ "master"].groupGain;
-		}else{
-			multiGain *= group.groupGain;
-		}
+		var multiGain = __applyGroupGain();
 		
 		if(fading == 1){
 			//startTime is the time at which we started fading in/out and == current_time at that moment
@@ -126,6 +120,16 @@ function __phonixCommonVars(coordsArr, foArr){
 		audio_sound_pitch(sID, pitch);
 	}
 	
+	__applyGroupGain = function(){
+		var multiGain = 1;
+		//If this sound is part of a group that isn't "master" then take both the group and the master gain into account
+		if(group.name != "master" && applyGroupGain){
+			multiGain *= group.groupGain*global.__phonixHandler.groups[$ "master"].groupGain;
+		}else{
+			multiGain *= group.groupGain;
+		}
+		return multiGain;
+	}
 	//getters
 	
 	IsFinished = function(){

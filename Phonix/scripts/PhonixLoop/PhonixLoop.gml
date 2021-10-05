@@ -35,7 +35,7 @@ function _phonixLoopPatternStruct(soundsArr, _priority, fadeIn, fadeOut, _group,
 	group = _group;
 	__phonixCommonVars(coordArr, falloffArr);
 	
-	
+	//Whether to wait until the intro/main loop track position reaches the end to play the outro
 	waitToPlayOutro = true;
 	
 	
@@ -47,8 +47,10 @@ function _phonixLoopPatternStruct(soundsArr, _priority, fadeIn, fadeOut, _group,
 		//automatic stopping
 		var l = (audio_sound_get_track_position(sID)*1000)+ (sInd == outro ? fadeOutTimer : 0);
 		if(((length*1000)-l)/pitch <= PHONIX_TICK_TIME*2 && fading == 0){
+			
 			//the soundChange var is explained below
 			var soundChange = false;
+			//The PHONIX_TICK_TIME*2 is a handpicked value that I think suits best
 			if(sInd == intro){
 				//this will play the main loop part
 				if(!stopping) index ++;
@@ -101,7 +103,7 @@ function _phonixLoopPatternStruct(soundsArr, _priority, fadeIn, fadeOut, _group,
 		length = audio_sound_length(sID);
 		//A little hack where we set the beginning gain to something that's not 0
 		//this way when transitioning between sounds there isn't a "hole" where there's nothing playing
-		audio_sound_gain(sID, baseGain/2, PHONIX_TICK_TIME);
+		audio_sound_gain(sID, baseGain*__applyGroupGain()/2, PHONIX_TICK_TIME);//handpicked value
 		//this is for keeping track of the intro, loop and outro unique sound IDs
 		array_push(soundIDs, sID);
 		sInd = soundIndexes[index];
