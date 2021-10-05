@@ -37,9 +37,9 @@ function __createQueuePatternStruct(soundArr, _group, _loop, _fadeIn, _fadeOut, 
 		//but if there is not ID and were not finished and this sound isn't part of a transition, play the sound
 		if(sID == -1 && !finished && !hasTransition) __play();
 		gainTick();
-			
+		var l = ((audio_sound_get_track_position(sID)*1000)+fadeOutTimer) ;
 		//automatic stopping
-		if(length*1000 <= ((audio_sound_get_track_position(sID)*1000)+fadeOutTimer) && fading == 0){
+		if(((length*1000)-l)/pitch <= PHONIX_TICK_TIME*2 && fading == 0){
 			Stop(false);
 			queuePlayNext = true;
 		}

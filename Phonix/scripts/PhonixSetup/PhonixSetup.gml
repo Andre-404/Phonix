@@ -17,6 +17,10 @@ function __phonixCommonVars(coordsArr, foArr){
 	finalGain = 1;
 	applyGroupGain = true;
 	
+	pitch = 1;
+	pitchRate = 0.1;
+	pitchTarget = 1;
+	
 	//3D stuff
 	emitter = -1;
 	x = coordsArr[0];
@@ -115,10 +119,13 @@ function __phonixCommonVars(coordsArr, foArr){
 		
 		//gain target and rate can be modified by the SetGain() method
 		baseGain += clamp(gainTarget - baseGain, -gainRate, gainRate);
+		//pitch tarhet and rate specified can be set in SetPitch() method
+		pitch += clamp(pitchTarget - pitch, -pitchRate, pitchRate);
 		
 		finalGain = baseGain*multiGain;
 		
 		audio_sound_gain(sID, finalGain*audio_sound_get_gain(sInd), PHONIX_TICK_TIME);
+		audio_sound_pitch(sID, pitch);
 	}
 	
 	IsFinished = function(){
@@ -209,6 +216,11 @@ function __phonixCommonVars(coordsArr, foArr){
 	
 	GetAssetIndex = function(){
 		return sInd;
+	}
+		
+	SetPitch = function(_pitch, rate){
+		pitchTarget = _pitch;
+		pitchRate = rate;
 	}
 	
 }

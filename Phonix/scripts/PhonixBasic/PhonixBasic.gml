@@ -32,7 +32,7 @@ function __createSinglePatternStruct(_group, _loop, _sIndex, _fadeIn, _fadeOut, 
 		gainTick();
 		//automatic stopping
 		var l = (audio_sound_get_track_position(sID)*1000)+fadeOutTimer;
-		if((length*1000)-l <= PHONIX_TICK_TIME*2 && fading == 0 && !loops){
+		if(((length*1000)-l)/pitch <= PHONIX_TICK_TIME*2 && fading == 0 && !loops){
 			Stop(false);
 		}
 			
