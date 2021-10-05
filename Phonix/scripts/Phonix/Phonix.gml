@@ -47,6 +47,10 @@ function PhonixMaster(gain) constructor{
 		var s = new __phonixRandomPattern(_assetArr, _fadeIn, _fadeOut, groups[$ _group]);
 		return s;
 	}
+	
+	__CreateLoopPattern = function(_intro, _loop, _outro, _fadeIn, _fadeOut, _group){
+		return new __phonixLoopPattern(_intro, _loop, _outro, _fadeIn, _fadeOut,  groups[$ _group]);
+	}
 }
 
 function __phonixCreateGroup(groupName, gain) constructor{

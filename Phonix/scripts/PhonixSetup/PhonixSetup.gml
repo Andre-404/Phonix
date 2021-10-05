@@ -42,10 +42,8 @@ function __phonixCommonVars(coordsArr, foArr){
 	
 	__SetFadeIn = function(){
 		fading = 1;
-		//audio_sound_gain(sID, 0, 0);
+		audio_sound_gain(sID, 0, 0);
 		startTime = current_time;
-		//var _gain = overwriteGain == -1 ? soundGain*group.groupGain : overwriteGain;
-		//audio_sound_gain(sID, _gain, fadeInTimer);
 	}
 		
 	Pause = function(){

@@ -19,9 +19,10 @@ draw_text(20, 80, "Press mb_right to create a 3D sound at mouse coords");
 draw_text(20, 120, "Press S to play a single pattern");
 draw_text(20, 140, "Press Q to play a queue pattern");
 draw_text(20, 160, "Press R to play a random pattern");
-draw_text(20, 180, "Press SPACE to stop all sound");
-draw_text(20, 200, "Press P to pause all sounds");
-draw_text(20, 220, "Press U to resume all sounds");
+draw_text(20, 180, "Press L to play a loop pattern");
+draw_text(20, 200, "Press SPACE to stop all sound");
+draw_text(20, 220, "Press P to pause all sounds");
+draw_text(20, 240, "Press U to resume all sounds");
 
 
 //the below code is just for showcase and shouldn't really be used in practice

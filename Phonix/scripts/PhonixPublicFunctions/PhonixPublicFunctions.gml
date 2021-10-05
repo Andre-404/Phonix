@@ -99,6 +99,10 @@ function PhonixCreateQueue(assetIndexArr, loop, fadeIn = 0, fadeOut = 0, group =
 function PhonixCreateRandom(assetIndexArr, fadeIn = 0, fadeOut = 0, group = "master"){
 	return global.__phonixHandler.__CreateRandomPattern(assetIndexArr, fadeIn, fadeOut, group);
 }
+	
+function PhonixCreateLoop(_intro, _loop, _outro, _fadeIn = 0, _fadeOut = 0, _group = "master"){
+	return global.__phonixHandler.__CreateLoopPattern(_intro, _loop, _outro, _fadeIn, _fadeOut, _group);
+}
 
 function PhonixSetFade(pattern, fadeInTime, fadeOutTime){
 	pattern.fadeInTimer = fadeInTime;

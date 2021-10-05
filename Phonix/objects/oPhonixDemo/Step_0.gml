@@ -10,6 +10,10 @@ if(keyboard_check_released(ord("R"))){
 	testID = PhonixPlay(randomPattern, 0);
 }
 
+if(keyboard_check_released(ord("L"))){
+	testID = PhonixPlay(loopPattern, 0);
+}
+
 if(keyboard_check_released(vk_space)){
 	PhonixStop("master");
 }

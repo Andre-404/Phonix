@@ -2,8 +2,8 @@
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "Scripts",
-    "path": "folders/Scripts.yy",
+    "name": "Phonix",
+    "path": "folders/Phonix.yy",
   },
   "resourceVersion": "1.0",
   "name": "PhonixConfig",
