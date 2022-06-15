@@ -1,6 +1,6 @@
 {
   "resources": [
-    {"id":{"name":"PhonixPublicFunctions","path":"scripts/PhonixPublicFunctions/PhonixPublicFunctions.yy",},"order":2,},
+    {"id":{"name":"phonixPublicFunctions","path":"scripts/phonixPublicFunctions/phonixPublicFunctions.yy",},"order":2,},
     {"id":{"name":"Phonix","path":"scripts/Phonix/Phonix.yy",},"order":0,},
     {"id":{"name":"PhonixParent","path":"scripts/PhonixParent/PhonixParent.yy",},"order":2,},
     {"id":{"name":"sfx2","path":"sounds/sfx2/sfx2.yy",},"order":4,},
@@ -11,7 +11,7 @@
     {"id":{"name":"oPhonixDemo","path":"objects/oPhonixDemo/oPhonixDemo.yy",},"order":0,},
     {"id":{"name":"sfx3","path":"sounds/sfx3/sfx3.yy",},"order":5,},
     {"id":{"name":"PhonixLoop","path":"scripts/PhonixLoop/PhonixLoop.yy",},"order":5,},
-    {"id":{"name":"PhonixConfig","path":"scripts/PhonixConfig/PhonixConfig.yy",},"order":1,},
+    {"id":{"name":"phonixConfig","path":"scripts/phonixConfig/phonixConfig.yy",},"order":1,},
     {"id":{"name":"sfx1","path":"sounds/sfx1/sfx1.yy",},"order":3,},
     {"id":{"name":"musicTrack2","path":"sounds/musicTrack2/musicTrack2.yy",},"order":1,},
     {"id":{"name":"musicTrack1","path":"sounds/musicTrack1/musicTrack1.yy",},"order":0,},

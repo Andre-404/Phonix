@@ -6,7 +6,7 @@
     "path": "folders/Phonix.yy",
   },
   "resourceVersion": "1.0",
-  "name": "PhonixConfig",
+  "name": "phonixConfig",
   "tags": [],
   "resourceType": "GMScript",
 }

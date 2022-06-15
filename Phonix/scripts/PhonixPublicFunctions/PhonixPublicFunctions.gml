@@ -13,7 +13,7 @@ function phonixGroupResume(_groupName, _fadeInTimer = 0){
 	if(g != undefined) g.groupResume(_fadeInTimer);
 }
 	
-function phonixTransition(_phonixSound1, _phonixSound2, _fadeTimer){
+function phonixTransition(_phonixSound1, _phonixSound2, _fadeTimer = 0){
 	if(!phonixValueIsValid(_phonixSound1)) exit;
 	if(!phonixValueIsValid(_phonixSound2)) exit;
 	if(_phonixSound1 == _phonixSound2) __phonixTrace("Can't transition to the same sound", true);
@@ -27,8 +27,8 @@ function phonixTick(){
 	global.__phonixHandler.__update();
 }
 
-function phonixCreateGroup(_groupName){
-	global.__phonixHandler.__CreateGroup(_groupName);
+function phonixCreateGroup(_groupName, _parentName = "master"){
+	global.__phonixHandler.__CreateGroup(_groupName, _parentName);
 }
 
 function phonixSetMasterGain(_gain){

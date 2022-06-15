@@ -6,7 +6,7 @@
     "path": "folders/Phonix.yy",
   },
   "resourceVersion": "1.0",
-  "name": "PhonixPublicFunctions",
+  "name": "phonixPublicFunctions",
   "tags": [],
   "resourceType": "GMScript",
 }
