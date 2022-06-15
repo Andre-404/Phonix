@@ -1,120 +1,71 @@
-//These function are for handling sounds
-function PhonixPlay(pattern, priority, _x = 0, _y = 0, _z = 0, fo_ref = PHONIX_DEFAULT_FALLOFF_REFERENCE, fo_max = PHONIX_DEFAULT_FALLOFF_MAX, fo_factor = PHONIX_DEFAULT_FALLOFF_FACTOR){
-	if(is_struct(pattern)){
-		var _id = pattern.play(priority, _x, _y, _z, fo_ref, fo_max, fo_factor);
-	}else if(is_numeric(pattern)){
-		var p = PhonixCreateSingle(pattern, false);
-		var _id = p.play(priority, _x, _y, _z, fo_ref, fo_max, fo_factor);
-	}
-	return _id;
+function phonixGroupStop(_groupName, _fadeOutTimer = 0){
+	var g = global.__phonixHandler.groups[$ _groupName];
+	if(g != undefined) g.groupStop(_fadeOutTimer);
 }
 
-function PhonixStop(index){
-	//if the value is a string then find a group of that name and execute the desired function
-	if(is_string(index)){
-		var g = global.__phonixHandler.groups[$ index];
-		if(g != undefined) g.groupStop(false);
-	}else{
-		if(PhonixValueIsValid(index)) index.Stop(false);
-	}
+function phonixGroupPause(_groupName, _fadeOutTimer = 0){
+	var g = global.__phonixHandler.groups[$ _groupName];
+	if(g != undefined) g.groupPause(_fadeOutTimer);
 }
 
-function PhonixStopNow(index){
-	//if the value is a string then find a group of that name and execute the desired function
-	if(is_string(index)){
-		var g = global.__phonixHandler.groups[$ index];
-		if(g != undefined) g.groupStop(true);
-	}else{
-		if(PhonixValueIsValid(index)) index.Stop(true);
-	}
-}
-
-function PhonixPause(index){
-	//if the value is a string then find a group of that name and execute the given function
-	if(is_string(index)){
-		var g = global.__phonixHandler.groups[$ index];
-		if(g != undefined) g.groupPause();
-	}else{
-		if(PhonixValueIsValid(index)) index.Pause();
-	}
-}
-
-function PhonixResume(index){
-	//if the value is a string then find a group of that name and execute the given function
-	if(is_string(index)){
-		var g = global.__phonixHandler.groups[$ index];
-		if(g != undefined) g.groupResume();
-	}else{
-		if(PhonixValueIsValid(index)) index.Resume();
-	}
+function phonixGroupResume(_groupName, _fadeInTimer = 0){
+	var g = global.__phonixHandler.groups[$ _groupName];
+	if(g != undefined) g.groupResume(_fadeInTimer);
 }
 	
-function PhonixTransition(soundID, nextSoundPattern, priority, _x = 0, _y = 0, _z = 0, fo_ref = PHONIX_DEFAULT_FALLOFF_REFERENCE, fo_max = PHONIX_DEFAULT_FALLOFF_MAX, fo_factor = PHONIX_DEFAULT_FALLOFF_FACTOR){
-	if(!PhonixValueIsValid(soundID)) exit;
-	//if the soundID is a valid id, then we stop it and play the desired pattern
-	//NOTE: the sound of the next pattern will only start playing after the soundID is marked as finished, meaning not immidiately
-	var sFrom = soundID;
-	var sNext = nextSoundPattern.play(priority, _x, _y, _z, fo_ref, fo_max, fo_factor);
-	sFrom.hasTransition = true;
-	sFrom.transitionSID = sNext;
-	sFrom.Stop(false);
-	sNext.hasTransition = true;
-	return sNext;
+function phonixTransition(_phonixSound1, _phonixSound2, _fadeTimer){
+	if(!phonixValueIsValid(_phonixSound1)) exit;
+	if(!phonixValueIsValid(_phonixSound2)) exit;
+	if(_phonixSound1 == _phonixSound2) __phonixTrace("Can't transition to the same sound", true);
+	_phonixSound1.pause(floor(_fadeTimer/4));
+	_phonixSound2.play(floor(_fadeTimer));
 }
 
 
 //These functions are for creating patterns and general audio managment
-function PhonixTick(){
+function phonixTick(){
 	global.__phonixHandler.__update();
 }
 
-function PhonixCreateGroup(groupName, groupGain){
-	global.__phonixHandler.__CreateGroup(groupName, groupGain);
+function phonixCreateGroup(_groupName){
+	global.__phonixHandler.__CreateGroup(_groupName);
 }
 
-function PhonixSetMasterGain(gain){
-	global.__phonixHandler.__SetMasterGain(gain);
+function phonixSetMasterGain(_gain){
+	global.__phonixHandler.__SetMasterGain(_gain);
 }
 	
-function PhonixGetMasterGain(){
+function phonixGetMasterGain(){
 	return global.__phonixHandler.__GetMasterGain();
 }
 
-function PhonixSetGroupGain(groupName, gain){
-	global.__phonixHandler.__SetGroupGain(groupName, gain);
+function phonixSetGroupGain(_groupName, _gain){
+	global.__phonixHandler.__SetGroupGain(_groupName, _gain);
 }
 	
-function PhonixGetGroupGain(groupName){
-	return global.__phonixHandler.__GetGroupGain(groupName);
+function phonixGetGroupGain(_groupName){
+	return global.__phonixHandler.__GetGroupGain(_groupName);
 }
 
-function PhonixCreateListener(_x, _y){
+function phonixCreateListener(_x, _y){
 	return global.__phonixHandler.__CreateListener(_x, _y);
 }
 
-function PhonixCreateSingle(assetIndex, loop, fadeIn = 0, fadeOut = 0, group = "master"){
-	return global.__phonixHandler.__CreateSinglePattern(assetIndex, loop, fadeIn, fadeOut, group);
+function phonixCreateSingle(_assetIndex, _priority = 1, _group = "master"){
+	return new __phonixPatternSingle(_assetIndex, _priority, _group);
 }
 
-function PhonixCreateQueue(assetIndexArr, loop, fadeIn = 0, fadeOut = 0, group = "master"){
-	return global.__phonixHandler.__CreateQueuePattern(assetIndexArr, loop, fadeIn, fadeOut, group)
-}
-
-function PhonixCreateRandom(assetIndexArr, fadeIn = 0, fadeOut = 0, group = "master"){
-	return global.__phonixHandler.__CreateRandomPattern(assetIndexArr, fadeIn, fadeOut, group);
+function phonixCreateRandom(_assetIndexArr, _priority = 1, _group = "master"){
+	return new __phonixPatternRandom(_assetIndexArr, _priority, _group);
 }
 	
-function PhonixCreateLoop(_intro, _loop, _outro, _fadeIn = 0, _fadeOut = 0, _group = "master"){
-	return global.__phonixHandler.__CreateLoopPattern(_intro, _loop, _outro, _fadeIn, _fadeOut, _group);
-}
-
-function PhonixSetFade(pattern, fadeInTime, fadeOutTime){
-	pattern.fadeInTimer = fadeInTime;
-	pattern.fadeOutTimer = fadeOutTime;
+function phonixCreateLoop(_assetIndex, _introEnd = 0, _outroStart = -1, _priority = 1, _group = "master"){
+	return new __phonixPatternLoop(_assetIndex, _introEnd, _outroStart, _priority, _group);
 }
 	
-function PhonixValueIsValid(value){
-	if(is_struct(value) && (instanceof(value) == "__createSinglePatternStruct"
-	|| instanceof(value) == "__createQueuePatternStruct")) return true;
+function phonixValueIsValid(value){
+	//God i hate GML, every phonix struct contains this variable, so if the user for some arcane reasons decides to create a struct with this variable
+	//and then also uses it as a actual phonix struct, we're fucked
+	if(is_struct(value) && variable_struct_get(value, "__isValidPhonixStruct") != undefined) return true;
 	else return false;
 }

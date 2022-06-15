@@ -1,128 +1,117 @@
+enum __phonixState{
+	playing,
+	pausing,
+	paused,
+	stopping,
+	none,
+	len
+}
 
-function PhonixMaster(gain) constructor{
+
+function __phonixMaster(gain) constructor{
 	groups = {};
-	groups[$ "master"] = new __phonixCreateGroup("master", 1);
-	__masterGroup = groups[$ "master"];
-	
+	groups[$ "master"] = new __phonixCreateGroup("master");
+	sounds = ds_list_create();
 	
 	__update = function(){
-		__masterGroup.update();
+		var l = ds_list_size(sounds);
+		var i = l-1;
+		repeat(l){
+			var sound = sounds[| i];
+			if(sound.state == __phonixState.none) {
+				sound.__delete();
+				ds_list_delete(sounds, i--);
+				continue;
+			}
+			sound.update();
+			i--;
+		}
 	}
 	
-	__CreateGroup = function(groupName, gain){
-		groups[$ "master"].CreateGroup(groupName, gain);
+	__CreateGroup = function(_groupName, _parentGroup){
+		groups[_groupName] = __phonixCreateGroup(_groupName);
+		array_push(groups[_parentGroup].childGroups, groups[_groupName]);
 	}
 	
 	__SetMasterGain = function(gain){
-		groups[$ "master"].groupGain = gain;
+		groups[$ "master"].setGain(gain);
 	}
 	
 	__GetMasterGain = function(){
-		return groups[$ "master"].groupGain;
+		return groups[$ "master"].getGain();
 	}
 	
 	__SetGroupGain = function(groupName, gain){
-		groups[$ groupName].groupGain = gain;
+		groups[$ groupName].setGain(gain);
 	}
 	
 	__GetGroupGain = function(groupName){
-		return groups[$ groupName].groupGain;
+		return groups[$ groupName].getGain();
 	}
 	
 	__CreateListener = function(_x, _y){
 		return new __phonixCreateListener(_x, _y);
 	}
-		
-	__CreateSinglePattern = function(_asset, _loop, _fadeIn, _fadeOut, _group){
-		var s = new __phonixSinglePattern(_asset, _loop, _fadeIn, _fadeOut, groups[$ _group]);
-		return s;
-	}
-	
-	__CreateQueuePattern = function(_assetArr, _loop, _fadeIn, _fadeOut, _group){
-		var s = new __phonixQueuePattern(_assetArr, _loop, _fadeIn, _fadeOut, groups[$ _group]);
-		return s;
-	}
-		
-	__CreateRandomPattern = function(_assetArr,  _fadeIn, _fadeOut, _group){
-		var s = new __phonixRandomPattern(_assetArr, _fadeIn, _fadeOut, groups[$ _group]);
-		return s;
-	}
-	
-	__CreateLoopPattern = function(_intro, _loop, _outro, _fadeIn, _fadeOut, _group){
-		return new __phonixLoopPattern(_intro, _loop, _outro, _fadeIn, _fadeOut,  groups[$ _group]);
-	}
 }
 
-function __phonixCreateGroup(groupName, gain) constructor{
-	groupGain = gain;
-	childInstances = [];
-	type = "group";
-	name = groupName;
+function __phonixCreateGroup(_groupName) constructor{
+	baseGain = 1;
+	gainMultiplier = 1;
+	childGroups = [];
+	name = _groupName;
+	
+	groupStop = function(_fadeOutTimer){
+		var handler = global.__phonixHandler;
+		var l = ds_list_size(handler.sounds);
+		var i = l-1;
+		repeat(l){
+			var sound = handler.sounds[| i];
+			if(sound.group == name) sound.stop(_fadeOutTimer);
+			i--;
+		}
+	}
+	
+	groupPause = function(_fadeOutTimer){
+		var handler = global.__phonixHandler;
+		var l = ds_list_size(handler.sounds);
+		var i = l-1;
+		repeat(l){
+			var sound = handler.sounds[| i];
+			if(sound.group == name) sound.pause(_fadeOutTimer);
+			i--;
+		}
+	}
+	
+	groupResume = function(_fadeInTimer){
+		var handler = global.__phonixHandler;
+		var l = ds_list_size(handler.sounds);
+		var i = l-1;
+		repeat(l){
+			var sound = handler.sounds[| i];
+			if(sound.group == name) sound.play(_fadeInTimer);
+			i--;
+		}
+	}
 		
-	CreateGroup = function(groupName, gain){
-		//create a new group and put it in a array of this groups children, also put it in the global groups lib
-		var s = new __phonixCreateGroup(groupName, gain);
-		array_push(childInstances, s);
-		//global lib of group names
-		global.__phonixHandler.groups[$ groupName] = s;
-	}
-		
-	update = function(){
-		//Updates all the sounds in the group, and if it finds a subgroup, runs the update code for the group too
-		var l = array_length(childInstances);
-		for(var i = 0; i < l; i++){
-			var inst = childInstances[i];
-			if(inst.type == "group"){
-				inst.update();
-			}else if(inst.type == "sound"){
-				if(!inst.finished) inst.update();
-				else {
-					array_delete(childInstances, i--, 1);
-					l --;
-				}
-			}
-		}
+	setGain = function(_gain){
+		baseGain = _gain;
+		__propagateGain();
 	}
 	
-	groupStop = function(stopNow){
-		//Stops every sound in the group, and if there are subgroups, stops their sounds too
-		var l = array_length(childInstances);
-		for(var i = 0; i < l; i++){
-			var inst = childInstances[i];
-			if(inst.type == "group"){
-				inst.groupStop();
-			}else if(inst.type == "sound"){
-				inst.Stop(stopNow);
-			}
-		}
+	getGain = function(){
+		return baseGain*gainMultiplier;
 	}
 	
-	groupPause = function(){
-		//Pauses every sound in the group, and if there are subgroups, pauses their sounds too
-		var l = array_length(childInstances);
-		for(var i = 0; i < l; i++){
-			var inst = childInstances[i];
-			if(inst.type == "group"){
-				inst.groupPause();
-			}else if(inst.type == "sound"){
-				inst.Pause();
-			}
+	__propagateGain = function(){
+		//this is only done when the gain of this group changes, and that change is propagated only to it's child groups
+		var l = array_length(childGroups);
+		var i = 0;
+		repeat(l){
+			childGroups[i].gainMultiplier = gainMultiplier*baseGain;
+			childGroups[i].__propagateGain();
+			i++;
 		}
 	}
-	
-	groupResume = function(){
-		//Resumes every sound in the group, and if there are subgroups, resumess their sounds too
-		var l = array_length(childInstances);
-		for(var i = 0; i < l; i++){
-			var inst = childInstances[i];
-			if(inst.type == "group"){
-				inst.groupResume();
-			}else if(inst.type == "sound"){
-				inst.Resume();
-			}
-		}
-	}
-	
 }
 
 function __phonixCreateListener(_x, _y) constructor{
@@ -133,22 +122,22 @@ function __phonixCreateListener(_x, _y) constructor{
 	audio_listener_orientation(arr[0], arr[1], arr[2], arr[3], arr[4], arr[5]);
 	audio_listener_position(x, y, z);
 		
-	SetPosition = function(_x, _y, _z = 0){
+	setPosition = function(_x, _y, _z = 0){
 		x = _x;
 		y = _y;
 		z = _z;
 		audio_listener_position(_x, _y, z);
 	}
 	
-	GetPosition = function(){
+	getPosition = function(){
 		return [x, y, z];
 	}
 		
-	SetOrientation = function(arr){
+	setOrientation = function(arr){
 		audio_listener_orientation(arr[0], arr[1], arr[2], arr[3], arr[4], arr[5]);
 	}
 		
-	GetOrientation = function(){
+	getOrientation = function(){
 		//right now there exists support for only 1 listener, and thus it's always gonna be at index 0
 		var ds = audio_listener_get_data(0);
 		var arr = [ds[? "lookat_x"], ds[? "lookat_y"], ds[? "lookat_z"], ds[? "up_x"], ds[? "up_y"], ds[? "up_z"]];
@@ -158,7 +147,11 @@ function __phonixCreateListener(_x, _y) constructor{
 }
 
 
-global.__phonixHandler = new PhonixMaster(1);
+global.__phonixHandler = new __phonixMaster(1);
+
+function __phonixTrace(s, crash = false){
+	show_error("Phonix: " + s, crash);
+}
 
 
 

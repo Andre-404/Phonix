@@ -1,1 +1,1 @@
-PhonixTick();
+phonixTick();

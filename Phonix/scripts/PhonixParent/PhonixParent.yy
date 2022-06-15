@@ -6,7 +6,7 @@
     "path": "folders/Phonix/System.yy",
   },
   "resourceVersion": "1.0",
-  "name": "PhonixBasic",
+  "name": "PhonixParent",
   "tags": [],
   "resourceType": "GMScript",
 }
