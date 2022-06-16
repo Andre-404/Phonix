@@ -19,8 +19,6 @@ function __phonixPatternLoop(_soundID, _introEnd = 0, _outroStart = -1, _priorit
 	}
 	
 	play = function(_fadeInTimer = 0){
-		var canPlay = (state != __phonixState.playing);
-		if(!canPlay) return;
 		nextState = __phonixState.playing
 		__changeState(_fadeInTimer);
 		playingOutro = false;

@@ -12,8 +12,6 @@ function __phonixPatternSingle(_soundID, _priority = 1, _group = "master") : __p
 	
 	//timers for functions below are in ms
 	play = function(_fadeInTimer = 0){
-		var canPlay = (state != __phonixState.playing);
-		if(!canPlay) return;
 		nextState = __phonixState.playing;
 		__changeState(_fadeInTimer);
 		return self;

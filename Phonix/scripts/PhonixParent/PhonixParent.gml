@@ -106,7 +106,8 @@ function __phonixPatternParent() constructor{
 	
 	//these function can, but don't have to be overwritten in patterns to achieve some behaviour
 	__playAudio = function() {
-		if(state == __phonixState.stopping) return;
+		//doing this check because .play() doesn't have any restrictions
+		if(state == __phonixState.stopping || state == __phonixState.playing) return;
 		if(state == __phonixState.paused){
 			audio_resume_sound(playingSound);
 			return;
@@ -118,6 +119,10 @@ function __phonixPatternParent() constructor{
 			if(emitter == -1) emitter = audio_emitter_create();
 			playingSound = audio_play_sound_on(emitter, soundID, false, priority);
 		}
+		//doing this here because there is a 2 frame delay between this and the update method first being called
+		//during this time the sound is abnormaly loud, and this is used to prevent that
+		audio_sound_gain(playingSound, min(baseGain*gainMultiplier*__getGroupGain()*audio_sound_get_gain(soundID), 1), 0);
+		audio_sound_pitch(playingSound, pitch);
 	}
 	__pauseAudio = function() {
 		audio_pause_sound(playingSound);
