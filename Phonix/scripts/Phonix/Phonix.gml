@@ -29,8 +29,8 @@ function __phonixMaster(gain) constructor{
 	}
 	
 	__CreateGroup = function(_groupName, _parentGroup){
-		groups[_groupName] = __phonixCreateGroup(_groupName);
-		array_push(groups[_parentGroup].childGroups, groups[_groupName]);
+		groups[$ _groupName] = __phonixCreateGroup(_groupName);
+		array_push(groups[$ _parentGroup].childGroups, groups[$ _groupName]);
 	}
 	
 	__SetMasterGain = function(gain){
