@@ -35,7 +35,7 @@ function __phonixPatternLoop(_soundID, _introEnd = 0, _outroStart = -1, _priorit
 		__changeState(_fadeOutTimer);
 		return self;
 	}
-	stop = function(_fadeOutTimer = 0, _immediate = false){
+	stop = function(_fadeOutTimer = 0){
 		//very dumb, should probably think of a better approach for this
 		var canStop = (state != __phonixState.none);
 		if(!canStop) return;
@@ -45,10 +45,9 @@ function __phonixPatternLoop(_soundID, _introEnd = 0, _outroStart = -1, _priorit
 		}else{
 			if(state != __phonixState.stopping) trackPos = outroStart;
 			nextState = __phonixState.stopping;
-			var delay = _immediate ? 0 : trackLen - outroStart;
+			var delay = _fadeOutTimer != 0 ? trackLen - outroStart : 0;
 			__changeState(delay);
-			//overriding gainIncrement because we don't want the end to drop in volume(maybe change later)
-			gainIncrement =  _immediate ? -1 : 0;
+			gainIncrement =  _fadeOutTimer != 0 ? -1/delay : -1;
 			playingOutro = true;
 		}
 		return self;

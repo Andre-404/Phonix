@@ -14,7 +14,7 @@ if(keyboard_check_released(ord("L"))){
 }
 
 if(keyboard_check_released(vk_space)){
-	phonixGroupStop("master");
+	phonixGroupStop("master", 500);
 }
 
 if(keyboard_check_released(ord("P"))){
