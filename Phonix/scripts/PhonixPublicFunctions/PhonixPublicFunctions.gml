@@ -19,6 +19,7 @@ function phonixTransition(_phonixSound1, _phonixSound2, _fadeTimer = 0){
 	if(_phonixSound1 == _phonixSound2) __phonixTrace("Can't transition to the same sound", true);
 	_phonixSound1.pause(floor(_fadeTimer/4));
 	_phonixSound2.play(floor(_fadeTimer));
+	return _phonixSound2;
 }
 
 
