@@ -95,7 +95,7 @@ function __phonixPatternParent() constructor{
 		}
 		//the value of gainIncrement is how much should the gain change each *milisecond*
 		gainMultiplier = clamp(gainMultiplier + gainIncrement*(delta_time/1000), 0, 1);
-		trackPos = audio_is_playing(playingSound) ? audio_sound_get_track_position(playingSound)*1000 : trackPos//in ms
+		trackPos = audio_is_playing(playingSound) ? audio_sound_get_track_position(playingSound)*1000 : (!audio_is_paused(playingSound) ?  trackLen : trackPos)//in ms
 		audio_sound_gain(playingSound, min(baseGain*gainMultiplier*__getGroupGain()*audio_sound_get_gain(soundID), 1), PHONIX_TICK_TIME);
 		audio_sound_pitch(playingSound, pitch);
 		if(emitter != -1){
